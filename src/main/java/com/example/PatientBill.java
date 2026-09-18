@@ -35,7 +35,10 @@ public class PatientBill {
     }
 
     public double calculateNetBill(double insuranceCoveragePercentage) {
-        double discount = calculateSubtotal() * (insuranceCoveragePercentage / 10.0);
+        if (insuranceCoveragePercentage < 0 || insuranceCoveragePercentage > 100) {
+            throw new IllegalArgumentException("Insurance coverage percentage must be between 0 and 100.");
+        }
+        double discount = calculateSubtotal() * (insuranceCoveragePercentage / 100.0);
         return calculateSubtotal() - discount;
     }
 }
