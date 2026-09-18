@@ -7,6 +7,18 @@ public class PatientBill {
     private double medicineCost;
 
     public PatientBill(String patientId, String patientName, double consultationFee, double medicineCost) {
+        if (patientId == null || patientId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Patient ID cannot be empty.");
+        }
+        if (patientName == null || patientName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Patient name cannot be empty.");
+        }
+        if (consultationFee < 0) {
+            throw new IllegalArgumentException("Consultation fee cannot be negative.");
+        }
+        if (medicineCost < 0) {
+            throw new IllegalArgumentException("Medicine cost cannot be negative.");
+        }
         this.patientId = patientId;
         this.patientName = patientName;
         this.consultationFee = consultationFee;
@@ -22,7 +34,6 @@ public class PatientBill {
         return this.consultationFee + this.medicineCost;
     }
 
-    // BUG: Missing negative check and formula divides by 10 instead of 100
     public double calculateNetBill(double insuranceCoveragePercentage) {
         double discount = calculateSubtotal() * (insuranceCoveragePercentage / 10.0);
         return calculateSubtotal() - discount;
